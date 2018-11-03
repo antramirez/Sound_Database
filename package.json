@@ -1,0 +1,29 @@
+{
+  "name": "antramirez-homework05",
+  "version": "1.0.0",
+  "description": "express app that uses mongodb",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "eslint src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyu-csci-ua-0480-001-003-fall-2018/antramirez-homework05.git"
+  },
+  "author": "Anthony Ramirez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyu-csci-ua-0480-001-003-fall-2018/antramirez-homework05/issues"
+  },
+  "homepage": "https://github.com/nyu-csci-ua-0480-001-003-fall-2018/antramirez-homework05#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "hbs": "^4.0.1",
+    "mongoose": "^5.3.9"
+  }
+}

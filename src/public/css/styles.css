@@ -1,0 +1,44 @@
+body {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+  font-family: monospace;
+  padding: 20px;
+  margin: 0px;
+}
+
+h2 {
+  margin-bottom: 3px;
+}
+
+a{
+  color: red;
+  transition: color .8s;
+}
+a:hover {
+  color: rgb(0,0,255);
+}
+
+form {
+  margin-top: 20px;
+}
+
+#header {
+  color: yellow;
+}
+
+input {
+  margin: 5px 0px;
+}
+
+table {
+  margin: 8px;
+  margin-left: -12px;
+}
+
+tr {
+  text-align: left;
+}
+
+th {
+  padding: 3px 10px;
+}

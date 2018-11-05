@@ -1,9 +1,9 @@
 <h2>I HEARD SOMETHING</h2>
 <form action="/sounds/add" method="post">
-  WHAT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="what" placeholder="e.g. clack"><br>
-  WHERE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="where" placeholder="e.g. the factory"><br>
-  DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="date" placeholder="e.g. 2005-06-17"><br>
-  HOUR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="hour" placeholder="i.e. (0-23)"><br>
+  WHAT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="what" placeholder="e.g. clack" required><br>
+  WHERE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="where" placeholder="e.g. the factory" required><br>
+  DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="date" placeholder="e.g. 2005-06-17" required><br>
+  HOUR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="hour" placeholder="i.e. (0-23)" required><br>
   DESCRIPTION:&nbsp; <input type="text" name="desc" placeholder="e.g. before a crash and a clack"><br>
-  <input type="submit" value="ADD">
+  <input type="submit" value="ADD" required>
 </form>

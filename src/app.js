@@ -5,6 +5,9 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+// require session module
+const session = require('express-session');
+
 // require mongoose module to connect to database
 const mongoose = require('mongoose');
 const db = require('./db');
@@ -12,8 +15,6 @@ const Sound = mongoose.model('Sound');
 
 // full path relative to public
 const fullPath = path.join(__dirname, 'public');
-
-const session = require('express-session');
 
 // handlebars layout
 app.set('view engine', 'hbs');
@@ -69,7 +70,8 @@ app.post('/sounds/add', (req, res) => {
 		where: req.body.where,
     date: req.body.date,
     hour: parseInt(req.body.hour),
-    desc: req.body.desc
+    desc: req.body.desc,
+    userId: req.session.id
 	}).save(function(err, sounds, count){
     // redirect to homepage
 		res.redirect('/');
@@ -77,7 +79,9 @@ app.post('/sounds/add', (req, res) => {
 });
 
 app.get('/sounds/mine', (req, res) => {
-  res.render('sounds/mine');
+  Sound.find({userId: req.session.id},  function(err, soundsInDB, count) {
+    res.render('sounds/mine', {sounds: soundsInDB, visits: req.session.visits});
+  });
 });
 
 // listen on port 3000

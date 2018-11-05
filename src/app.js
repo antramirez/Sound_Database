@@ -10,7 +10,7 @@ const session = require('express-session');
 
 // require mongoose module to connect to database
 const mongoose = require('mongoose');
-const db = require('./db');
+require('./db');
 const Sound = mongoose.model('Sound');
 
 // full path relative to public
@@ -36,6 +36,9 @@ app.use( (req, res, next) => {
   else {
     req.session.visits = 1;
   }
+
+  // set locals variable so it can be accessed in templates
+  res.locals.visits = req.session.visits;
   next();
 });
 
@@ -46,7 +49,7 @@ app.get('/', (req, res) => {
     // find entries that match the filter fields, and if they're missing,
     // match entries that are not null (meaning only filter by fields that are filled out)
     Sound.find({what: req.query.what || {$ne: null}, where: req.query.where || {$ne: null}, date: req.query.date || {$ne: null}, hour: Number(req.query.hour) || {$ne: null} }, function(err, soundsInDB, count) {
-      res.render('home', {sounds: soundsInDB, visits: req.session.visits});
+      res.render('home', {sounds: soundsInDB});
     });
   }
   // if no filter, show all sounds
@@ -59,7 +62,7 @@ app.get('/', (req, res) => {
 
 app.get('/sounds/add', (req, res) => {
   // show page with form
-  res.render('sounds/add', {visits: req.session.visits});
+  res.render('sounds/add');
 });
 
 app.post('/sounds/add', (req, res) => {
@@ -73,14 +76,17 @@ app.post('/sounds/add', (req, res) => {
     desc: req.body.desc,
     userId: req.session.id
 	}).save(function(err, sounds, count){
+    // remove extra page visit after POST is called
+    req.session.visits--;
+
     // redirect to homepage
 		res.redirect('/');
 	});
 });
 
 app.get('/sounds/mine', (req, res) => {
-  Sound.find({userId: req.session.id},  function(err, soundsInDB, count) {
-    res.render('sounds/mine', {sounds: soundsInDB, visits: req.session.visits});
+  Sound.find({userId: req.session.id}, function(err, soundsInDB, count) {
+    res.render('sounds/mine', {sounds: soundsInDB});
   });
 });
 

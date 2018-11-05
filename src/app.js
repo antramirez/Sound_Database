@@ -13,6 +13,8 @@ const Sound = mongoose.model('Sound');
 // full path relative to public
 const fullPath = path.join(__dirname, 'public');
 
+const session = require('express-session');
+
 // handlebars layout
 app.set('view engine', 'hbs');
 
@@ -22,6 +24,20 @@ app.use(express.static(fullPath));
 // body parsing middleware
 app.use(express.urlencoded({extended: false}));
 
+// set session options middleware
+app.use(session({secret: 'secret message', saveUninitialized: false, resave: false}));
+
+// set middleware to keep track of page visits
+app.use( (req, res, next) => {
+  if (req.session.visits) {
+    req.session.visits++;
+  }
+  else {
+    req.session.visits = 1;
+  }
+  next();
+});
+
 // paths
 app.get('/', (req, res) => {
   // check if form was submitted to filter
@@ -29,7 +45,7 @@ app.get('/', (req, res) => {
     // find entries that match the filter fields, and if they're missing,
     // match entries that are not null (meaning only filter by fields that are filled out)
     Sound.find({what: req.query.what || {$ne: null}, where: req.query.where || {$ne: null}, date: req.query.date || {$ne: null}, hour: Number(req.query.hour) || {$ne: null} }, function(err, soundsInDB, count) {
-      res.render('home', {sounds: soundsInDB});
+      res.render('home', {sounds: soundsInDB, visits: req.session.visits});
     });
   }
   // if no filter, show all sounds
@@ -42,7 +58,7 @@ app.get('/', (req, res) => {
 
 app.get('/sounds/add', (req, res) => {
   // show page with form
-  res.render('sounds/add');
+  res.render('sounds/add', {visits: req.session.visits});
 });
 
 app.post('/sounds/add', (req, res) => {

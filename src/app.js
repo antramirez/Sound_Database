@@ -40,13 +40,29 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/add', (req, res) => {
-  res.render('add');
-})
+app.get('/sounds/add', (req, res) => {
+  // show page with form
+  res.render('sounds/add');
+});
 
-app.get('/mine', (req, res) => {
-  res.render('mine');
-})
+app.post('/sounds/add', (req, res) => {
+  // create a new sound based on query string (from form)
+  // and save it (if the entries are all valid)
+  new Sound({
+		what: req.body.what,
+		where: req.body.where,
+    date: req.body.date,
+    hour: parseInt(req.body.hour),
+    desc: req.body.desc
+	}).save(function(err, sounds, count){
+    // redirect to homepage
+		res.redirect('/');
+	});
+});
 
-// listenn on port 3000
+app.get('/sounds/mine', (req, res) => {
+  res.render('sounds/mine');
+});
+
+// listen on port 3000
 app.listen(3000);

@@ -24,11 +24,20 @@ app.use(express.urlencoded({extended: false}));
 
 // paths
 app.get('/', (req, res) => {
-  // let sounds;
-  Sound.find({}, function(err, soundsInDB, count) {
-    // sounds = soundsInDB;
-    res.render('home', {sounds: soundsInDB});
-  });
+  // check if form was submitted to filter
+  if (req.query) {
+    // find entries that match the filter fields, and if they're missing,
+    // match entries that are not null (meaning only filter by fields that are filled out)
+    Sound.find({what: req.query.what || {$ne: null}, where: req.query.where || {$ne: null}, date: req.query.date || {$ne: null}, hour: Number(req.query.hour) || {$ne: null} }, function(err, soundsInDB, count) {
+      res.render('home', {sounds: soundsInDB});
+    });
+  }
+  // if no filter, show all sounds
+  else {
+    Sound.find({}, function(err, soundsInDB, count) {
+      res.render('home', {sounds: soundsInDB});
+    });
+  }
 });
 
 app.get('/add', (req, res) => {

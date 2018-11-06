@@ -85,6 +85,7 @@ app.post('/sounds/add', (req, res) => {
 });
 
 app.get('/sounds/mine', (req, res) => {
+  // only show sounds that have id that matches the session's id
   Sound.find({userId: req.session.id}, function(err, soundsInDB, count) {
     res.render('sounds/mine', {sounds: soundsInDB});
   });
